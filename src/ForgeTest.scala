@@ -1,8 +1,21 @@
-import args.PacketMessageType
+import args._
 
-class ForgeTest(pMsgType: PacketMessageType) {
-  var mType = pMsgType
+class ForgeTest(
+                  msgType: PacketMessageType,
+                  msgTarget: PacketMessageTarget,
+                  nodeType: PacketNodeType, 
+                  nodeState: PacketNodeState,
+                  nodeService: PacketNodeService,
+                  nodeRegister: PacketNodeRegister,
+                  textContent: PacketTextContent
+               ) {
   
   override def toString() : String = "--unit-test " + 
-     mType.toArgument()
+     " " + msgType.toArgument() +
+     " " + msgTarget.toArgument() +
+     " " + nodeType.toArgument() +
+     " " + nodeState.toArgument() +
+     " " + nodeService.toArgument() +
+     " " + nodeRegister.toArgument() +
+     " " + textContent.toArgument()
 }

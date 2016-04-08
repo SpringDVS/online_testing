@@ -2,13 +2,14 @@ package args
 
 import enums.MessageType
 
-class PacketMessageType(msgType: enums.MessageType.MessageType) extends ForgeArgument {
+class PacketMessageType(msgType: MessageType.MessageType) extends ForgeArgument {
   
-  var ptype : enums.MessageType.MessageType = msgType
+  def this() = this(enums.MessageType.Default)
   
-  override def toArgument() : String = this.ptype match {
+  override def toArgument() : String = msgType match {
       case MessageType.GsnArea => "--msg-type gsn_area"
       case MessageType.GsnTypeRequest => "--msg-type gsn_type_request"
+      case MessageType.Undefined => "--msg-type gsn_undefined"
       case _ => ""
     }
 
