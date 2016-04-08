@@ -1,10 +1,11 @@
+import args.PacketMessageType
 
 
 object SpringTestSuite extends App {
   println("Spring DVS Online Test Suite")
 
-  val pmt = new PacketMessageType(enums.MessageType.GsnArea);
+  var ft = new ForgeTest(new PacketMessageType(enums.MessageType.GsnArea));
   
-  println(pmt.toArgument())
+  println(ft)
   
 }

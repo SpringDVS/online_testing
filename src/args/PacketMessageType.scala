@@ -1,3 +1,5 @@
+package args
+
 import enums.MessageType
 
 class PacketMessageType(msgType: enums.MessageType.MessageType) extends ForgeArgument {
