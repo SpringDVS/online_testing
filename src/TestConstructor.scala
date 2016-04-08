@@ -13,24 +13,14 @@ object TestConstructor {
     val nodeRegister = NodeRegister.Default
     val textContent = ""
     
-    println(extractName(testline))
-    println(extractForge(testline))
-    println(extractExpects(testline))
-    
-    return new ForgeTest(
-                new PacketMessageType(msgType),
-                new PacketMessageTarget(msgTarget),
-                new PacketNodeType(nodeType),
-                new PacketNodeState(nodeState),
-                new PacketNodeService(nodeService),
-                new PacketNodeRegister(nodeRegister),
-                new PacketTextContent(textContent)
-              )
+    val forge = extractForge(testline)
+    val kvp = extractKeyValue(forge)
+    return new ForgeTest(new args.Collection(kvp))
   }
   
   def extractName(source: String) : String = {
     
-    val rx = """name:\s*([a-zA-z0-9\s]*),""".r
+    val rx = """name:\s*([a-zA-Z0-9\s]*),""".r
 
     rx.findAllIn(source).matchData foreach {
       m => return m.group(1)
@@ -39,20 +29,36 @@ object TestConstructor {
   }
   
   def extractForge(source: String) : String = {
-     val rx = """forge\s*\{\s*([a-zA-z0-9\s:]*)\}""".r
+     val rx = """forge\s*\{([a-zA-Z0-9\s:,;\.]*)\}""".r
+     
+     rx.findAllIn(source).matchData foreach {
+      m => {
+        return m.group(1)
+      }
+     }    
+    return ""
+  }
+
+  def extractExpects(source: String) : String = {
+     val rx = """expects\s*\{\s*([a-zA-Z0-9\s:,\.]*)\}""".r
      
      rx.findAllIn(source).matchData foreach {
       m => return m.group(1)
      }    
     return ""
   }
+  
+  def extractKeyValue(source: String) : Map[String,String] = {
+    
+    val rx = """([\:a-zA-z0-9]+)\s*\:\s*([:a-zA-Z0-9,;\.]+),+""".r
 
-  def extractExpects(source: String) : String = {
-     val rx = """expects\s*\{\s*([a-zA-z0-9\s:]*)\}""".r
-     
-     rx.findAllIn(source).matchData foreach {
-      m => return m.group(1)
-     }    
-    return ""
+    return rx.findAllIn(source).matchData.map { 
+      t => t.groupCount match {
+            case 2 => t.group(1) -> t.group(2)
+            case _ => t.group(1) -> ""
+        }
+ 
+     } toMap
+   
   }
 }

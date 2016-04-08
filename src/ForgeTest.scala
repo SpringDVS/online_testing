@@ -1,22 +1,14 @@
 import args._
 
-class ForgeTest(
-                  msgType: PacketMessageType,
-                  msgTarget: PacketMessageTarget,
-                  nodeType: PacketNodeType, 
-                  nodeState: PacketNodeState,
-                  nodeService: PacketNodeService,
-                  nodeRegister: PacketNodeRegister,
-                  textContent: PacketTextContent
-               ) {
+class ForgeTest(collection: args.Collection) {
   
   override def toString() : String = 
      "--unit-test" + 
-     " " + msgType.toArgument() +
-     " " + msgTarget.toArgument() +
-     " " + nodeType.toArgument() +
-     " " + nodeState.toArgument() +
-     " " + nodeService.toArgument() +
-     " " + nodeRegister.toArgument() +
-     " " + textContent.toArgument()
+     " " + collection.msgType.toArgument() +
+     " " + collection.msgTarget.toArgument() +
+     " " + collection.nodeType.toArgument() +
+     " " + collection.nodeState.toArgument() +
+     " " + collection.nodeService.toArgument() +
+     " " + collection.nodeRegister.toArgument() +
+     " " + collection.textContent.toArgument()
 }
