@@ -10,7 +10,8 @@ class ForgeTest(
                   textContent: PacketTextContent
                ) {
   
-  override def toString() : String = "--unit-test " + 
+  override def toString() : String = 
+     "--unit-test" + 
      " " + msgType.toArgument() +
      " " + msgTarget.toArgument() +
      " " + nodeType.toArgument() +
