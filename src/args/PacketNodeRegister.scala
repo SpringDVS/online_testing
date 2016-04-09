@@ -1,6 +1,6 @@
 package args
 import enums.NodeRegister
-class PacketNodeRegister(nodeRegister: NodeRegister.NodeRegister) extends ForgeArgument {
+class PacketNodeRegister(nodeRegister: NodeRegister.Value) extends ForgeArgument {
   def this() = this(NodeRegister.Default)
   
   def toArgument() : String = nodeRegister match {

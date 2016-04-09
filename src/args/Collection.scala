@@ -15,7 +15,7 @@ class Collection(map:Map[String,String]) {
       case "MessageType" => {
         try { 
           msgType = new PacketMessageType(MessageType.withName(p._2)) 
-        } catch { case _ : Throwable => }
+        } catch { case _ : Throwable => throw new IllegalArgumentException("Exception: unknown MessageType enum `" + p._2 + "`") }
       }
       
       case "MessageTarget" => {
@@ -25,25 +25,25 @@ class Collection(map:Map[String,String]) {
       case "NodeType" => {
         try { 
           nodeType = new PacketNodeType(NodeType.withName(p._2)) 
-        } catch { case _ : Throwable => }
+        } catch { case _ : Throwable => throw new IllegalArgumentException("Exception: unknown NodeType enum `" + p._2 + "`") }
       }
 
       case "NodeState" => {
         try { 
           nodeState = new PacketNodeState(NodeState.withName(p._2)) 
-        } catch { case _ : Throwable => }
+        } catch { case _ : Throwable => throw new IllegalArgumentException("Exception: unknown NodeState enum `" + p._2 + "`") }
       }
       
       case "NodeService" => {
         try { 
           nodeService = new PacketNodeService(NodeService.withName(p._2)) 
-        } catch { case _ : Throwable => }
+        } catch { case _ : Throwable => throw new IllegalArgumentException("Exception: unknown NodeService enum `" + p._2 + "`") }
       }
       
       case "NodeRegister" => {
         try { 
           nodeRegister = new PacketNodeRegister(NodeRegister.withName(p._2)) 
-        } catch { case _ : Throwable => }
+        } catch { case _ : Throwable => throw new IllegalArgumentException("Exception: unknown NodeRegister enum `" + p._2 + "`") }
       }
 
       case "TextContent" => {

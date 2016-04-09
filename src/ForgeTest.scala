@@ -1,6 +1,8 @@
 import args._
 
-class ForgeTest(collection: args.Collection) {
+class ForgeTest(name: String, collection: args.Collection) {
+  
+  def name() : String = name
   
   override def toString() : String = 
      "--unit-test" + 

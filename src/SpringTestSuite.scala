@@ -26,9 +26,13 @@ test {
   }
 } 
 """
+  try {
+    var ft = TestConstructor.build(testBuild);
+    println(ft)
+  } catch {
+    case e : Throwable => System.err.println(e.getMessage())
+  }
   
-  var ft = TestConstructor.build(testBuild);
-  
-  println(ft)
+ 
   
 }

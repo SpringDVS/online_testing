@@ -2,20 +2,16 @@ import enums._
 import args._
 
 object TestConstructor {
-  def build(testline: String) : ForgeTest = {
+  def build(source: String) : ForgeTest = {
     
-    // Set everything to default
-    val msgType = MessageType.Default
-    val msgTarget = ""
-    val nodeType = NodeType.Default
-    val nodeState = NodeState.Default
-    val nodeService = NodeService.Default
-    val nodeRegister = NodeRegister.Default
-    val textContent = ""
-    
-    val forge = extractForge(testline)
+    val name = extractName(source)
+    val forge = extractForge(source)
     val kvp = extractKeyValue(forge)
-    return new ForgeTest(new args.Collection(kvp))
+    try {
+      return new ForgeTest(name, new args.Collection(kvp))
+    } catch {
+      case e : Throwable => throw new IllegalArgumentException("Failed to construct `"+name+"`-\n\t" + e.getMessage())
+    }
   }
   
   def extractName(source: String) : String = {

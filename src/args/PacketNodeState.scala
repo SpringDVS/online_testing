@@ -1,6 +1,6 @@
 package args
 import enums.NodeState
-class PacketNodeState(nodeState: NodeState.NodeState) extends ForgeArgument {
+class PacketNodeState(nodeState: NodeState.Value) extends ForgeArgument {
   
   def this() = this(NodeState.Default)
   

@@ -2,7 +2,7 @@ package args
 
 import enums.NodeType
 
-class PacketNodeType(nodeType: enums.NodeType.NodeType) extends ForgeArgument {
+class PacketNodeType(nodeType: enums.NodeType.Value) extends ForgeArgument {
     
   def this() = this(NodeType.Default)
   

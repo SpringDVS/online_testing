@@ -2,7 +2,7 @@ package args
 
 import enums.MessageType
 
-class PacketMessageType(msgType: MessageType.MessageType) extends ForgeArgument {
+class PacketMessageType(msgType: MessageType.Value) extends ForgeArgument {
   
   def this() = this(enums.MessageType.Default)
   
