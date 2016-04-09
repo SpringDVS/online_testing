@@ -39,7 +39,7 @@ object TestConstructor {
   }
 
   def extractExpects(source: String) : String = {
-     val rx = """expects\s*\{\s*([a-zA-Z0-9\s:,\.]*)\}""".r
+     val rx = """expects\s*\{\s*([a-zA-Z0-9\s:;,\.]*)\}""".r
      
      rx.findAllIn(source).matchData foreach {
       m => return m.group(1)
