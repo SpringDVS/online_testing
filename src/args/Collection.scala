@@ -49,7 +49,7 @@ class Collection(map:Map[String,String]) {
       case "TextContent" => {
         textContent = new PacketTextContent(p._2) 
       }
-      case _ => { }
+      case _ => { throw new IllegalArgumentException("Exception: unknown Argument Selector `"+p._1+"` (with enum `" + p._2 + "`)") }
     }
   }
   
