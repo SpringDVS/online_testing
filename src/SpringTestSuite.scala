@@ -7,9 +7,9 @@ object SpringTestSuite extends App {
  
   var testBuild = 
     """
-test {
+test (
 
-  name: Test 100,
+  name: Test 0x1,
   
   forge {
     MessageType: GsnArea,
@@ -18,18 +18,36 @@ test {
   expects {
     Result: Response,
     Frame: FrameNetwork,
-    Content: randomstuff,
   }
-} 
+),
+
+test (
+
+  name: Test 0x2,
+  
+  forge {
+    MessageType: GsnArea,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameNetwork,
+  }
+)
 """
-  try {
-    var unit = TestConstructor.build(testBuild);
+  val rx = """test\s*\(\s*([a-zA-Z0-9\s:,\.{}])*\)""".r
+  
+  rx.findAllMatchIn(testBuild).foreach { 
     
-    ForgeCmd.run(unit)
-  } catch {
-    case e : Throwable => System.err.println(e.getMessage())
+    test => {
+      try {
+        var unit = TestConstructor.build(test.toString());
+        ForgeCmd.run(unit)
+      } catch {
+        case e : Throwable => System.err.println(e.getMessage())
+      }
+    }
+    
   }
-  
- 
-  
+    
 }
