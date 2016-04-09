@@ -13,22 +13,19 @@ test {
   
   forge {
     MessageType: GsnArea,
-    MessageTarget: 127.0.0.1:55301,
-    NodeType: Org,
-    NodeState: Enabled,
-    NodeService: Http,
-    NodeRegister: True,
-    TextContent: hello,world,foobar;,
   },
   
   expects {
-    Response:FrameNetwork,
+    Result: Response,
+    Frame: FrameNetwork,
+    Content: randomstuff,
   }
 } 
 """
   try {
-    var ft = TestConstructor.build(testBuild);
-    println(ft)
+    var unit = TestConstructor.build(testBuild);
+    
+    ForgeCmd.run(unit)
   } catch {
     case e : Throwable => System.err.println(e.getMessage())
   }

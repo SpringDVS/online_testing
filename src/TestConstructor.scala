@@ -7,8 +7,11 @@ object TestConstructor {
     val name = extractName(source)
     val forge = extractForge(source)
     val kvp = extractKeyValue(forge)
+    
+    val expects = extractExpects(source)
+    val exp = extractKeyValue(expects)
     try {
-      return new ForgeTest(name, new args.Collection(kvp))
+      return new ForgeTest(name, new args.Collection(kvp), new ForgeExpectation(exp))
     } catch {
       case e : Throwable => throw new IllegalArgumentException("Failed to construct `"+name+"`-\n\t" + e.getMessage())
     }
