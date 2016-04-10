@@ -9,7 +9,7 @@ test (
   
   expects {
     Result: Response,
-    Frame: FrameNodeInfo,
+    Frame: FrameResponse,
     Content: 2;Http;127.0.0.1;cci,dvsnode.greenman.zu,
   }
 ),
