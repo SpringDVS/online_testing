@@ -29,7 +29,7 @@ test (
     MessageType: GsnRegistration,
     NodeType: Org,
     NodeService: Dvsp,
-    TextContent: SpringA,testspringA,  
+    TextContent: SpringA,HostA,  
   },
   
   expects {
@@ -52,6 +52,42 @@ test (
     Result: Response,
     Frame: FrameNodeStatus,
     Content: Disabled,
+  }
+),
+
+test (
+
+  name: Duplicate Springname,
+  
+  forge {
+    MessageType: GsnRegistration,
+    NodeType: Org,
+    NodeService: Dvsp,
+    TextContent: SpringA,abcd,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameResponse,
+    Content: NetspaceDuplication,
+  }
+),
+
+test (
+
+  name: Duplicate Hostname,
+  
+  forge {
+    MessageType: GsnRegistration,
+    NodeType: Org,
+    NodeService: Dvsp,
+    TextContent: SpringZ,HostA,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameResponse,
+    Content: NetspaceDuplication,
   }
 ),
 
@@ -85,5 +121,38 @@ test (
     Result: Response,
     Frame: FrameNodeStatus,
     Content: Enabled,
+  }
+),
+
+test (
+
+  name: Register SpringB,
+  
+  forge {
+    MessageType: GsnRegistration,
+    NodeType: Org,
+    NodeService: Dvsp,
+    TextContent: SpringB,HostB,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameResponse,
+    Content: Ok,
+  }
+),
+
+test (
+
+  name: Request Area 2x,
+  
+  forge {
+    MessageType: GsnArea,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameNetwork,
+    Content: SpringA,HostA,127.0.0.1;SpringB,HostB,127.0.0.1;,
   }
 ),
