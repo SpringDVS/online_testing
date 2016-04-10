@@ -10,35 +10,80 @@ runner (
 ),
 
 
-
+// Reference
+// - MessageType
+// - MessageTarget
+// - NodeType
+// - NodeState
+// - NodeService
+// - NodeRegister
+// - TextContent
+// - TestAction
 
 
 test (
 
-  name: Test 0x22,
+  name: Register SpringA,
   
   forge {
-    MessageType: GsnNodeInfo,
-    TextContent: cci,
+    MessageType: GsnRegistration,
+    NodeType: Org,
+    NodeService: Dvsp,
+    TextContent: SpringA,testspringA,  
   },
   
   expects {
     Result: Response,
-    Frame: FrameNodeInfo,
-    Content: 2;Http;127.0.0.1;cci,dvsnode.greenman.zu,
+    Frame: FrameResponse,
+    Content: Ok
   }
 ),
 
 test (
 
-  name: Test 0x23,
+  name: Check SpringA,
   
   forge {
-    MessageType: GsnArea,
+    MessageType: GsnNodeStatus,
+    TextContent: SpringA,
   },
   
   expects {
     Result: Response,
-    Frame: FrameNetwork,
+    Frame: FrameNodeStatus,
+    Content: Disabled,
   }
-)
+),
+
+test (
+
+  name: Enabled SpringA,
+  
+  forge {
+    MessageType: GsnStateUpdate,
+    NodeState: Enabled
+    TextContent: SpringA,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameResponse,
+    Content: Ok,
+  }
+),
+
+test (
+
+  name: Recheck SpringA,
+  
+  forge {
+    MessageType: GsnNodeStatus,
+    TextContent: SpringA,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameNodeStatus,
+    Content: Enabled,
+  }
+),

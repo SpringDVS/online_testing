@@ -2,5 +2,7 @@ package enums
 
 object MessageType extends Enumeration {
     type MessageType = Value
-    val GsnArea, GsnTypeRequest, GsnNodeInfo, Undefined, UnitTest, Default = Value
+    val GsnArea, GsnTypeRequest, GsnNodeInfo, 
+      GsnRegistration, GsnNodeStatus, GsnStateUpdate,
+      Undefined, UnitTest, Default = Value
 }
