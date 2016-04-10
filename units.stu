@@ -144,7 +144,7 @@ test (
 
 test (
 
-  name: Request Area 2x,
+  name: Request Area 2xNode,
   
   forge {
     MessageType: GsnArea,
@@ -154,5 +154,36 @@ test (
     Result: Response,
     Frame: FrameNetwork,
     Content: SpringA,HostA,127.0.0.1;SpringB,HostB,127.0.0.1;,
+  }
+),
+
+test (
+  name: Unregister SpringA,
+
+  forge {
+    MessageType: GsnRegistration,
+    NodeRegister: False,
+    TextContent: SpringA,HostA,
+  }
+
+  expects {
+    Result: Response,
+    Frame: FrameResponse,
+    Content: Ok,
+  }
+)
+
+test (
+
+  name: Request Area 1xNode,
+  
+  forge {
+    MessageType: GsnArea,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameNetwork,
+    Content: SpringB,HostB,127.0.0.1;,
   }
 ),
