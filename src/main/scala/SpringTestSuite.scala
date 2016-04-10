@@ -1,5 +1,6 @@
 import args._
 import scala.io.Source
+import main.scala.enums.TestResult
 
 
 object SpringTestSuite extends App {
@@ -15,8 +16,9 @@ object SpringTestSuite extends App {
         try {
           var unit = TestConstructor.build(test.toString());
           ForgeCmd.run(unit) match {
-            case true => passed = passed + 1
-            case false => failed = failed + 1
+            case TestResult.Pass => passed = passed + 1
+            case TestResult.Fail => failed = failed + 1
+            case TestResult.Autopass => { }
           }
         } catch {
           case e : Throwable => {
