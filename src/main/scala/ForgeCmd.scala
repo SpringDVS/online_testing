@@ -4,6 +4,7 @@ import enums.ExpectationResult
 object ForgeCmd {
   def run(unit: ForgeTest) : Boolean = {
     println("Test: \033[1;35m"+unit.name()+"\033[0m")
+    
     val cmd = "/home/cfg/Scripts/springforge " + unit
     val output = cmd.!!
     
@@ -22,7 +23,7 @@ object ForgeCmd {
     
     val v = output.substring(3)
     val step1 = v.split("\\|",2)
-    
+
     expect.result match {
       case ExpectationResult.Response => step1.apply(0) match {
         case "Response" => { }
@@ -31,17 +32,20 @@ object ForgeCmd {
           return false
         }
       }
+      case ExpectationResult.None => { println("\033[0;32mAUTOPASS\033[0;m"); return true }
     }
     
     val step2 = step1.apply(1).split(":",2)
-    val eresult = expect.result
-    try {
-      if(enums.Frame.withName(step2.apply(0)) != expect.frame){ 
-          println("\033[0;31mFAIL\033[0;m: wanted `"+expect.frame+"` got `" + step2.apply(0) + "`")
-          return false
-        }
-    } catch {
-      case _ : Throwable => {return false }
+    
+    if(expect.frame != enums.Frame.None) { 
+      try {
+        if(enums.Frame.withName(step2.apply(0)) != expect.frame){ 
+            println("\033[0;31mFAIL\033[0;m: wanted `"+expect.frame+"` got `" + step2.apply(0) + "`")
+            return false
+          }
+      } catch {
+        case _ : Throwable => {return false }
+      }
     }
     
     if(expect.content.length() > 0 &&

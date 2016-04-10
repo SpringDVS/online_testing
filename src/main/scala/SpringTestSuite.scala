@@ -5,7 +5,7 @@ import scala.io.Source
 object SpringTestSuite extends App {
     println("Spring DVS Online Test Suite")
     var testBuild = Source.fromFile("units.stu").mkString
-    val rx = """test\s*\(\s*([a-zA-Z0-9\s:;,\.{}])*\)""".r
+    val rx = """(?:test|runner)\s*\(\s*([a-zA-Z0-9\s:;,\.{}])*\)""".r
     var passed = 0
     var failed = 0
     

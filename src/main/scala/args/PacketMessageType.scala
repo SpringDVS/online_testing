@@ -10,6 +10,7 @@ class PacketMessageType(msgType: MessageType.Value) extends ForgeArgument {
       case MessageType.GsnArea => "--msg-type gsn_area"
       case MessageType.GsnTypeRequest => "--msg-type gsn_type_request"
       case MessageType.GsnNodeInfo => "--msg-type gsn_node_info"
+      case MessageType.UnitTest => "--msg-type gsn_unit_test"
       case MessageType.Undefined => "--msg-type gsn_undefined"
       case _ => ""
     }

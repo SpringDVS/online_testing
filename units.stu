@@ -1,3 +1,18 @@
+// Make sure we are reset before starting the test routines
+runner (
+
+  name: Db Reset 0x1,
+  
+  forge {
+    MessageType: UnitTest,
+    TestAction: Reset,
+  },
+),
+
+
+
+
+
 test (
 
   name: Test 0x22,
@@ -9,7 +24,7 @@ test (
   
   expects {
     Result: Response,
-    Frame: FrameResponse,
+    Frame: FrameNodeInfo,
     Content: 2;Http;127.0.0.1;cci,dvsnode.greenman.zu,
   }
 ),

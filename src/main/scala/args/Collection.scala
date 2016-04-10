@@ -1,5 +1,6 @@
 package args
 import enums._
+import main.scala.args.PacketTestAction
 
 class Collection(map:Map[String,String]) {
   var msgType = new PacketMessageType()
@@ -9,6 +10,7 @@ class Collection(map:Map[String,String]) {
   var nodeService = new PacketNodeService()
   var nodeRegister = new PacketNodeRegister()
   var textContent = new PacketTextContent()
+  var testAction = new PacketTestAction()
   
   map.foreach {
     p => p._1 match {
@@ -46,6 +48,12 @@ class Collection(map:Map[String,String]) {
         } catch { case _ : Throwable => throw new IllegalArgumentException("Exception: unknown NodeRegister enum `" + p._2 + "`") }
       }
 
+       case "TestAction" => {
+        try { 
+          testAction = new PacketTestAction(main.scala.enums.TestAction.withName(p._2)) 
+        } catch { case _ : Throwable => throw new IllegalArgumentException("Exception: unknown TestAction enum `" + p._2 + "`") }
+      }
+      
       case "TextContent" => {
         textContent = new PacketTextContent(p._2) 
       }
