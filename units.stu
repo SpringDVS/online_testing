@@ -304,7 +304,7 @@ test (
   
   forge {
     MessageType: GsnStateUpdate,
-    NodeState: Enabled
+    NodeState: Enabled,
     TextContent: SpringZ,
   },
   
@@ -312,5 +312,51 @@ test (
     Result: Response,
     Frame: FrameResponse,
     Content: NetspaceError,
+  }
+),
+
+
+
+//  Modify SpringB Address
+runner (
+
+  name: Modify SpringB Address,
+  
+  forge {
+    MessageType: UnitTest,
+    TestAction: UpdateAddress,
+    TextContent: SpringB,HostB,192.172.192.72,
+  }
+),
+
+test (
+  name: Unregister Error Network,
+  
+  forge {
+    MessageType: GsnRegistration,
+    NodeRegister: False,
+    TextContent: SpringB,HostB,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameResponse,
+    Content: NetworkError,
+  }
+),
+
+test (
+  name: State Update Error Network,
+  
+  forge {
+    MessageType: GsnStateUpdate,
+    NodeState: Enabled,
+    TextContent: SpringB,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameResponse,
+    Content: NetworkError,
   }
 ),
