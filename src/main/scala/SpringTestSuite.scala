@@ -15,7 +15,7 @@ object SpringTestSuite extends App {
       test => {
         try {
           var unit = TestConstructor.build(test.toString());
-          ForgeCmd.run(unit) match {
+          ForgeCmd.run(unit, false) match {
             case TestResult.Pass => passed = passed + 1
             case TestResult.Fail => failed = failed + 1
             case TestResult.Autopass => { }

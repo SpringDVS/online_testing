@@ -7,6 +7,7 @@ class PacketTestAction(action: TestAction.Value) extends ForgeArgument {
   
   override def toArgument() : String = action match {
     case TestAction.Reset => "--test-action reset"
+    case TestAction.UpdateAddress => "--test-action update-address"
     case _ => ""
   }
 }

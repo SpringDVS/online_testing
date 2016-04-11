@@ -3,9 +3,11 @@ import enums.ExpectationResult
 import main.scala.enums.TestResult
 
 object ForgeCmd {
-  def run(unit: ForgeTest) : TestResult.Value = {
+  def run(unit: ForgeTest, verbose: Boolean) : TestResult.Value = {
     println("Test: \033[1;35m"+unit.name()+"\033[0m")
-//    println("Args: " + unit)
+    
+    if( verbose == true) { println("Args: " + unit) }
+    
     val cmd = "/home/cfg/Scripts/springforge " + unit
     val output = cmd.!!
     
