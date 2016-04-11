@@ -41,7 +41,7 @@ test (
 
 test (
 
-  name: Check SpringA,
+  name: Check SpringA Status,
   
   forge {
     MessageType: GsnNodeStatus,
@@ -57,43 +57,7 @@ test (
 
 test (
 
-  name: Duplicate Springname,
-  
-  forge {
-    MessageType: GsnRegistration,
-    NodeType: Org,
-    NodeService: Dvsp,
-    TextContent: SpringA,abcd,
-  },
-  
-  expects {
-    Result: Response,
-    Frame: FrameResponse,
-    Content: NetspaceDuplication,
-  }
-),
-
-test (
-
-  name: Duplicate Hostname,
-  
-  forge {
-    MessageType: GsnRegistration,
-    NodeType: Org,
-    NodeService: Dvsp,
-    TextContent: SpringZ,HostA,
-  },
-  
-  expects {
-    Result: Response,
-    Frame: FrameResponse,
-    Content: NetspaceDuplication,
-  }
-),
-
-test (
-
-  name: Enabled SpringA,
+  name: Update Enable SpringA,
   
   forge {
     MessageType: GsnStateUpdate,
@@ -110,7 +74,7 @@ test (
 
 test (
 
-  name: Recheck SpringA,
+  name: Recheck SpringA Status,
   
   forge {
     MessageType: GsnNodeStatus,
@@ -173,6 +137,8 @@ test (
   }
 )
 
+
+
 test (
 
   name: Request Area 1xNode,
@@ -185,5 +151,166 @@ test (
     Result: Response,
     Frame: FrameNetwork,
     Content: SpringB,HostB,127.0.0.1;,
+  }
+),
+
+
+
+test (
+
+  name: Register SpringRoot,
+  
+  forge {
+    MessageType: GsnRegistration,
+    NodeType: Root,
+    NodeService: Dvsp,
+    TextContent: SpringRoot,HostRoot,  
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameResponse,
+    Content: Ok
+  }
+),
+
+
+
+test (
+
+  name: SpringRoot NodeInfo,
+  
+  forge {
+    MessageType: GsnNodeInfo,
+    TextContent: SpringRoot,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameNodeInfo,
+    Content: 1;Dvsp;127.0.0.1;SpringRoot,HostRoot,
+  }
+),
+
+test (
+  name: Request Org Nodes,
+
+  forge {
+    MessageType: GsnTypeRequest,
+    NodeType: Org,
+  },
+
+  expects {
+    Result: Response,
+    Frame: FrameNetwork,
+    Content: SpringB,HostB,127.0.0.1;,
+  }
+)
+
+test (
+  name: Request Root Nodes,
+
+  forge {
+    MessageType: GsnTypeRequest,
+    NodeType: Root,
+  },
+
+  expects {
+    Result: Response,
+    Frame: FrameNetwork,
+    Content: SpringRoot,HostRoot,127.0.0.1;,
+  }
+)
+
+
+
+
+// Error outs
+
+test (
+
+  name: Registration Error NetspaceDuplication Springname,
+  
+  forge {
+    MessageType: GsnRegistration,
+    NodeType: Org,
+    NodeService: Dvsp,
+    TextContent: SpringB,abcd,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameResponse,
+    Content: NetspaceDuplication,
+  }
+),
+
+test (
+
+  name: Registration Error NetspaceDuplication Hostname,
+  
+  forge {
+    MessageType: GsnRegistration,
+    NodeType: Org,
+    NodeService: Dvsp,
+    TextContent: SpringZ,HostB,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameResponse,
+    Content: NetspaceDuplication,
+  }
+),
+
+
+test (
+
+  name: NodeInfo Error Netspace,
+  
+  forge {
+    MessageType: GsnNodeInfo,
+    TextContent: VoidNode,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameResponse,
+    Content: NetspaceError,
+  }
+),
+
+
+test (
+
+  name: NodeStatus Error Netspace,
+  
+  forge {
+    MessageType: GsnNodeStatus,
+    TextContent: SpringZ,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameResponse,
+    Content: NetspaceError,
+  }
+),
+
+
+test (
+
+  name: NodeState Error Netspace,
+  
+  forge {
+    MessageType: GsnStateUpdate,
+    NodeState: Enabled
+    TextContent: SpringZ,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameResponse,
+    Content: NetspaceError,
   }
 ),
