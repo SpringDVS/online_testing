@@ -8,7 +8,10 @@ object TestConstructor {
     val forge = extractForge(source)
     val kvp = extractKeyValue(forge)
     
-    val kvp_final = kvp + ("MessageTarget" -> global_addr)
+    val kvp_final = kvp.contains("MessageTarget") match {
+      case false => kvp + ("MessageTarget" -> global_addr)
+      case true => kvp
+    }
     
     
     val expects = extractExpects(source)
