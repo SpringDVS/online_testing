@@ -34,7 +34,7 @@ object TestConstructor {
   }
   
   def extractForge(source: String) : String = {
-     val rx = """forge\s*\{([a-zA-Z0-9\s:,;\.]*)\}""".r
+     val rx = """forge\s*\{([a-zA-Z0-9\s:,/;\.]*)\}""".r
      
      rx.findAllIn(source).matchData foreach {
       m => {
@@ -45,7 +45,7 @@ object TestConstructor {
   }
 
   def extractExpects(source: String) : String = {
-     val rx = """expects\s*\{\s*([a-zA-Z0-9\s:;,\.]*)\}""".r
+     val rx = """expects\s*\{\s*([a-zA-Z0-9\s:;/,\.]*)\}""".r
      
      rx.findAllIn(source).matchData foreach {
       m => return m.group(1)
@@ -55,7 +55,7 @@ object TestConstructor {
   
   def extractKeyValue(source: String) : Map[String,String] = {
     
-    val rx = """([\:a-zA-z0-9]+)\s*\:\s*([:a-zA-Z0-9,;\.]+),+""".r
+    val rx = """([\:a-zA-z0-9]+)\s*\:\s*([:a-zA-Z0-9,/;\.]+),+""".r
 
     return rx.findAllIn(source).matchData.map { 
       t => t.groupCount match {

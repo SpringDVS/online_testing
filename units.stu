@@ -4,7 +4,7 @@ runner (
   name: Db Reset 0x1,
   
   forge {
-    MessageType: UnitTest,
+  	MessageType: UnitTest,
     TestAction: Reset,
   },
 ),
@@ -135,7 +135,7 @@ test (
     Frame: FrameResponse,
     Content: Ok,
   }
-)
+),
 
 
 
@@ -155,6 +155,44 @@ test (
 ),
 
 
+
+
+test(
+  name: Register SpringWeb Node,
+
+  forge {
+    MessageType: GsnRegistration,
+    NodeRegister: True,
+    NodeType: Org,
+    NodeService: Http,
+    TextContent: SpringWeb,WebHost/php/node/,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameResponse,
+    Content: Ok,
+  }
+),
+
+
+
+
+test (
+
+  name: Request SpringWeb Node Info,
+  
+  forge {
+    MessageType: GsnNodeInfo,
+    TextContent: SpringWeb,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameNodeInfo,
+    Content: 2;Http;127.0.0.1;SpringWeb,WebHost/php/node/,
+  }
+),
 
 test (
 
@@ -203,7 +241,7 @@ test (
   expects {
     Result: Response,
     Frame: FrameNetwork,
-    Content: SpringB,HostB,127.0.0.1;,
+    Content: SpringB,HostB,127.0.0.1;SpringWeb,WebHost,127.0.0.1;,
   }
 )
 
@@ -358,5 +396,59 @@ test (
     Result: Response,
     Frame: FrameResponse,
     Content: NetworkError,
+  }
+),
+
+
+// Start dealing with the Geotop netspace
+runner (
+
+  name: Db Reset 0x2,
+  
+  forge {
+  	MessageType: UnitTest,
+    TestAction: Reset,
+  },
+),
+
+runner (
+  name: Add Initial Geosub Root,
+  
+  forge {
+    MessageType: UnitTest,
+    TestAction: AddGsnRoot,
+    TextContent: SpringLocal,Localhost,127.0.0.1,homegeo,
+  },
+),
+
+test (
+  name: Register New Root Node,
+  
+  forge {
+    MessageType: GtnRegistration,
+    NodeService: Dvsp,
+    TextContent: SpringAlt,Localalt,127.0.0.1,homegeo,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameResponse,
+    Content: Ok,
+  }
+),
+
+
+test (
+  name: Request Geosub Nodes for GTN,
+  
+  forge {
+    MessageType: GtnGeosubNodes,
+    TextContent: homegeo,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameNetwork,
+    Content: SpringLocal,Localhost,127.0.0.1;SpringAlt,Localalt,127.0.0.1;,
   }
 ),
