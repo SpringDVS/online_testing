@@ -122,6 +122,21 @@ test (
 ),
 
 test (
+  name: Locally Resolve SpringA,
+  
+  forge {
+    MessageType: GsnResolution,
+    TextContent: spring://SpringA,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameNodeInfo,
+    Content: 2;Dvsp;127.0.0.1;SpringA,HostA,
+  }
+),
+
+test (
   name: Unregister SpringA,
 
   forge {
@@ -421,6 +436,8 @@ runner (
   },
 ),
 
+
+
 test (
   name: Register New Root Node,
   
@@ -450,5 +467,117 @@ test (
     Result: Response,
     Frame: FrameNetwork,
     Content: SpringLocal,Localhost,127.0.0.1;SpringAlt,Localalt,127.0.0.1;,
+  }
+),
+
+
+
+// Test Request Chaining
+
+// Wipe remote database
+runner (
+
+  name: Remote Db Reset 0x3,
+  
+  forge {
+    MessageTarget: ###.###.###.###:55301,
+    MessageType: UnitTest,
+    TestAction: Reset,
+  },
+),
+
+
+
+test (
+
+  name: Register springwater,
+  
+  forge {
+   MessageTarget: ###.###.###.###:55301,
+    MessageType: GsnRegistration,
+    NodeType: Org,
+    NodeService: Dvsp,
+    TextContent: springwater,RemoteHost,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameResponse,
+    Content: Ok
+  }
+),
+
+runner (
+  name: Adding SpringRemote Root,
+  
+  forge {
+    MessageType: UnitTest,
+    TestAction: AddGsnRoot,
+    NodeService: Dvsp,
+    TextContent: SpringRemote,SpringWide,###.###.###.###,esusx,
+  },
+),
+
+
+
+test (
+  name: Request Geosub Nodes esusx,
+  
+  forge {
+    MessageType: GtnGeosubNodes,
+    TextContent: esusx,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameNetwork,
+    Content: SpringRemote,SpringWide,###.###.###.###;,
+  }
+),
+
+test (
+  name: Chain Request Resolve SpringWater,
+  
+  forge {
+    MessageType: GsnResolution,
+    TextContent: spring://springwater.esusx.uk,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameNodeInfo,
+    Content: 2;Dvsp;***.***.***.***;springwater,RemoteHost,
+  }
+),
+
+
+
+test (
+  name: Chain Request Resolution Netspace Error,
+  
+  forge {
+    MessageType: GsnResolution,
+    TextContent: spring://void.esusx.uk,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameResponse,
+    Content: NetspaceError,
+  }
+),
+
+test (
+  name: No Geosub Resolution Netspace Error,
+  
+  forge {
+    MessageType: GsnResolution,
+    TextContent: spring://springwater.void.uk,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameResponse,
+    Content: NetspaceError,
   }
 ),
