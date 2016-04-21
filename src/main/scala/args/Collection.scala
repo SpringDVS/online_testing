@@ -11,6 +11,7 @@ class Collection(map:Map[String,String]) {
   var nodeRegister = new PacketNodeRegister()
   var textContent = new PacketTextContent()
   var testAction = new PacketTestAction()
+  var httpService = new PacketHttpService()
   
   map.foreach {
     p => p._1 match {
@@ -53,7 +54,13 @@ class Collection(map:Map[String,String]) {
           testAction = new PacketTestAction(main.scala.enums.TestAction.withName(p._2)) 
         } catch { case _ : Throwable => throw new IllegalArgumentException("Exception: unknown TestAction enum `" + p._2 + "`") }
       }
-      
+
+      case "Http" => {
+        try { 
+          httpService = new PacketHttpService(p._2) 
+        } catch { case _ : Throwable => throw new IllegalArgumentException("Exception: unknown TestAction enum `" + p._2 + "`") }
+      }
+
       case "TextContent" => {
         textContent = new PacketTextContent(p._2) 
       }

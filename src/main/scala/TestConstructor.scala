@@ -6,11 +6,18 @@ object TestConstructor {
     
     val name = extractName(source)
     val net = extractNetwork(source)
+    val port = extractPort(source)
     val forge = extractForge(source)
     val kvp = extractKeyValue(forge)
     
+    val final_address = port match {
+      case  "-1" => global_addr
+      case p => global_addr.split(":")(0) + ":" + p
+    }
+    
+    
     val kvp_final = kvp.contains("MessageTarget") match {
-      case false => kvp + ("MessageTarget" -> global_addr)
+      case false => kvp + ("MessageTarget" -> final_address)
       case true => kvp
     }
     
@@ -42,6 +49,16 @@ object TestConstructor {
       m => return m.group(1)
     }    
     return "local"
+  }
+  
+  def extractPort(source: String) : String = {
+    
+    val rx = """port:\s*([a-zA-Z0-9\s]*),""".r
+
+    rx.findAllIn(source).matchData foreach {
+      m => return m.group(1)
+    }    
+    return "-1"
   }
   
   def extractForge(source: String) : String = {

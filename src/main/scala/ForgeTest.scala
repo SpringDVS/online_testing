@@ -14,5 +14,6 @@ class ForgeTest(name: String, net: String, collection: args.Collection, expectat
      " " + collection.nodeService.toArgument() +
      " " + collection.nodeRegister.toArgument() +
      " " + collection.testAction.toArgument() +
+     " " + collection.httpService.toArgument() +
      " " + collection.textContent.toArgument()
 }
