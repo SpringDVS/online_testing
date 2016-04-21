@@ -5,6 +5,7 @@ object TestConstructor {
   def build(source: String, global_addr: String) : ForgeTest = {
     
     val name = extractName(source)
+    val net = extractNetwork(source)
     val forge = extractForge(source)
     val kvp = extractKeyValue(forge)
     
@@ -17,7 +18,7 @@ object TestConstructor {
     val expects = extractExpects(source)
     val exp = extractKeyValue(expects)
     try {
-      return new ForgeTest(name, new args.Collection(kvp_final), new ForgeExpectation(exp))
+      return new ForgeTest(name, net, new args.Collection(kvp_final), new ForgeExpectation(exp))
     } catch {
       case e : Throwable => throw new IllegalArgumentException("Failed to construct `"+name+"`-\n\t" + e.getMessage())
     }
@@ -31,6 +32,16 @@ object TestConstructor {
       m => return m.group(1)
     }    
     return ""
+  }
+  
+  def extractNetwork(source: String) : String = {
+    
+    val rx = """network:\s*([a-zA-Z0-9\s]*),""".r
+
+    rx.findAllIn(source).matchData foreach {
+      m => return m.group(1)
+    }    
+    return "local"
   }
   
   def extractForge(source: String) : String = {

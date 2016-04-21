@@ -1,8 +1,9 @@
 import args._
 
-class ForgeTest(name: String, collection: args.Collection, expectation: ForgeExpectation) {
+class ForgeTest(name: String, net: String, collection: args.Collection, expectation: ForgeExpectation) {
   def expectation() : ForgeExpectation = expectation
   def name() : String = name
+  def network() : String = net
   
   override def toString() : String = 
      "--unit-test" + 
