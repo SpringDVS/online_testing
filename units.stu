@@ -478,6 +478,7 @@ test (
 runner (
 
   name: Remote Db Reset 0x3,
+  network: remote,
   
   forge {
     MessageTarget: ###.###.###.###:55301,
@@ -491,6 +492,7 @@ runner (
 test (
 
   name: Register springwater,
+  network: remote,
   
   forge {
    MessageTarget: ###.###.###.###:55301,
@@ -509,6 +511,7 @@ test (
 
 runner (
   name: Adding SpringRemote Root,
+  network: remote,
   
   forge {
     MessageType: UnitTest,
@@ -522,6 +525,7 @@ runner (
 
 test (
   name: Request Geosub Nodes esusx,
+  network: remote,
   
   forge {
     MessageType: GtnGeosubNodes,
@@ -537,6 +541,7 @@ test (
 
 test (
   name: Chain Request Resolve SpringWater,
+  network: remote,
   
   forge {
     MessageType: GsnResolution,
@@ -546,7 +551,7 @@ test (
   expects {
     Result: Response,
     Frame: FrameNodeInfo,
-    Content: 2;Dvsp;***.***.***.***;springwater,RemoteHost,
+    Content: 2;Dvsp;$$$.$$$.$$$.$$$;springwater,RemoteHost,
   }
 ),
 
@@ -554,7 +559,8 @@ test (
 
 test (
   name: Chain Request Resolution Netspace Error,
-  
+  network: remote,
+
   forge {
     MessageType: GsnResolution,
     TextContent: spring://void.esusx.uk,
@@ -569,7 +575,8 @@ test (
 
 test (
   name: No Geosub Resolution Netspace Error,
-  
+  network: remote,
+
   forge {
     MessageType: GsnResolution,
     TextContent: spring://springwater.void.uk,
