@@ -6,12 +6,29 @@ object ForgeCmd {
   def run(unit: ForgeTest, verbose: Boolean) : TestResult.Value = {
     println("Test: \033[1;35m"+unit.name()+"\033[0m")
     
-    if( verbose == true) { println("Args: " + unit) }
+   
     
-    val cmd = "/home/cfg/Scripts/springforge " + unit
+    val cmd = verbose match { 
+      case false => "/home/cfg/Scripts/springforge " + unit
+      case true => "/home/cfg/Scripts/springforge --http-verbose " + unit
+    }
+    if( verbose == true) { println("Cmd: " + cmd) }
     val output = cmd.!!
     
-    return check(output.trim() , unit.expectation())
+    val outputFormatted = verbose match {
+      case true => {
+        println(output)
+        var pos = output.indexOf("%%");
+        if(pos >= 0) {
+          output.substring(pos)
+        } else {
+          output
+        }
+      }
+      case false => output
+    }
+    
+    return check(outputFormatted.trim() , unit.expectation())
   }
   
   def check(output: String, expect: ForgeExpectation) : TestResult.Value = {

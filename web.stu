@@ -1,0 +1,483 @@
+// Make sure we are reset before starting the test routines
+runner (
+
+  name: Web Db Reset 0x1,
+  
+  forge {
+  	MessageType: UnitTest,
+    TestAction: Reset,
+    Http: nodedvs.greenman.zu/spring/,
+  },
+),
+
+
+// Reference
+// - MessageType
+// - MessageTarget
+// - NodeType
+// - NodeState
+// - NodeService
+// - NodeRegister
+// - TextContent
+// - TestAction
+
+
+test (
+
+  name: Web Web Register SpringA,
+  
+  forge {
+    MessageType: GsnRegistration,
+    NodeType: Org,
+    NodeService: Dvsp,
+    TextContent: SpringA,HostA,
+    Http: nodedvs.greenman.zu/spring/,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameResponse,
+    Content: Ok,
+  }
+),
+
+
+test (
+
+  name: Web Update Enable SpringA,
+  
+  forge {
+    MessageType: GsnStateUpdate,
+    NodeState: Enabled
+    TextContent: SpringA,
+    Http: nodedvs.greenman.zu/spring/,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameResponse,
+    Content: Ok,
+  }
+),
+
+test (
+
+  name: Web Recheck SpringA Status,
+  
+  forge {
+    MessageType: GsnNodeStatus,
+    TextContent: SpringA,
+    Http: nodedvs.greenman.zu/spring/,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameNodeStatus,
+    Content: Enabled,
+  }
+),
+
+test (
+
+  name: Web Register SpringB,
+  
+  forge {
+    MessageType: GsnRegistration,
+    NodeType: Org,
+    NodeService: Dvsp,
+    TextContent: SpringB,HostB,
+    Http: nodedvs.greenman.zu/spring/,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameResponse,
+    Content: Ok,
+  }
+),
+
+test (
+
+  name: Web Request Area 2xNode,
+  
+  forge {
+    MessageType: GsnArea,
+    Http: nodedvs.greenman.zu/spring/,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameNetwork,
+    Content: SpringA,HostA,127.0.0.1;SpringB,HostB,127.0.0.1;,
+  }
+),
+
+test (
+  name: Web Locally Resolve SpringA,
+  
+  forge {
+    MessageType: GsnResolution,
+    TextContent: spring://SpringA,
+    Http: nodedvs.greenman.zu/spring/,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameNodeInfo,
+    Content: 2;Dvsp;127.0.0.1;SpringA,HostA,
+  }
+),
+
+test (
+  name: Web Unregister SpringA,
+
+  forge {
+    MessageType: GsnRegistration,
+    NodeRegister: False,
+    TextContent: SpringA,HostA,
+    Http: nodedvs.greenman.zu/spring/,
+  }
+
+  expects {
+    Result: Response,
+    Frame: FrameResponse,
+    Content: Ok,
+  }
+),
+
+
+
+test (
+
+  name: Web Request Area 1xNode,
+  
+  forge {
+    MessageType: GsnArea,
+    Http: nodedvs.greenman.zu/spring/,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameNetwork,
+    Content: SpringB,HostB,127.0.0.1;,
+  }
+),
+
+
+
+
+test(
+  name: Web Register SpringWeb Node,
+
+  forge {
+    MessageType: GsnRegistration,
+    NodeRegister: True,
+    NodeType: Org,
+    NodeService: Http,
+    TextContent: SpringWeb,WebHost/php/node/,
+    Http: nodedvs.greenman.zu/spring/,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameResponse,
+    Content: Ok,
+  }
+),
+
+
+
+
+test (
+
+  name: Web Request SpringWeb Node Info,
+  
+  forge {
+    MessageType: GsnNodeInfo,
+    TextContent: SpringWeb,
+    Http: nodedvs.greenman.zu/spring/,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameNodeInfo,
+    Content: 2;Http;127.0.0.1;SpringWeb,WebHost/php/node/,
+  }
+),
+
+test (
+
+  name: Web Register SpringRoot,
+  
+  forge {
+    MessageType: GsnRegistration,
+    NodeType: Root,
+    NodeService: Dvsp,
+    TextContent: SpringRoot,HostRoot,  
+    Http: nodedvs.greenman.zu/spring/,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameResponse,
+    Content: Ok
+  }
+),
+
+
+
+test (
+
+  name: Web SpringRoot NodeInfo,
+  
+  forge {
+    MessageType: GsnNodeInfo,
+    TextContent: SpringRoot,
+    Http: nodedvs.greenman.zu/spring/,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameNodeInfo,
+    Content: 1;Dvsp;127.0.0.1;SpringRoot,HostRoot,
+  }
+),
+
+test (
+  name: Web Request Org Nodes,
+
+  forge {
+    MessageType: GsnTypeRequest,
+    NodeType: Org,
+    Http: nodedvs.greenman.zu/spring/,
+  },
+
+  expects {
+    Result: Response,
+    Frame: FrameNetwork,
+    Content: SpringB,HostB,127.0.0.1;SpringWeb,WebHost,127.0.0.1;,
+  }
+)
+
+test (
+  name: Web Request Root Nodes,
+
+  forge {
+    MessageType: GsnTypeRequest,
+    NodeType: Root,
+    Http: nodedvs.greenman.zu/spring/,
+  },
+
+  expects {
+    Result: Response,
+    Frame: FrameNetwork,
+    Content: SpringRoot,HostRoot,127.0.0.1;,
+  }
+),
+
+
+
+
+// Error outs
+
+test (
+
+  name: Web Registration Error NetspaceDuplication Springname,
+  
+  forge {
+    MessageType: GsnRegistration,
+    NodeType: Org,
+    NodeService: Dvsp,
+    TextContent: SpringB,abcd,
+    Http: nodedvs.greenman.zu/spring/,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameResponse,
+    Content: NetspaceDuplication,
+  }
+),
+
+test (
+
+  name: Registration Error NetspaceDuplication Hostname,
+  
+  forge {
+    MessageType: GsnRegistration,
+    NodeType: Org,
+    NodeService: Dvsp,
+    TextContent: SpringZ,HostB,
+    Http: nodedvs.greenman.zu/spring/,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameResponse,
+    Content: NetspaceDuplication,
+  }
+),
+
+
+test (
+
+  name: NodeInfo Error Netspace,
+  
+  forge {
+    MessageType: GsnNodeInfo,
+    TextContent: VoidNode,
+    Http: nodedvs.greenman.zu/spring/,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameResponse,
+    Content: NetspaceError,
+  }
+),
+
+
+test (
+
+  name: NodeStatus Error Netspace,
+  
+  forge {
+    MessageType: GsnNodeStatus,
+    TextContent: SpringZ,
+    Http: nodedvs.greenman.zu/spring/,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameResponse,
+    Content: NetspaceError,
+  }
+),
+
+
+test (
+
+  name: NodeState Error Netspace,
+  
+  forge {
+    MessageType: GsnStateUpdate,
+    NodeState: Enabled,
+    TextContent: SpringZ,
+    Http: nodedvs.greenman.zu/spring/,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameResponse,
+    Content: NetspaceError,
+  }
+),
+
+
+
+//  Modify SpringB Address
+runner (
+
+  name: Modify SpringB Address,
+  
+  forge {
+    MessageType: UnitTest,
+    TestAction: UpdateAddress,
+    TextContent: SpringB,HostB,192.172.192.72,
+    Http: nodedvs.greenman.zu/spring/,
+  }
+),
+
+test (
+  name: Unregister Error Network,
+  
+  forge {
+    MessageType: GsnRegistration,
+    NodeRegister: False,
+    TextContent: SpringB,HostB,
+    Http: nodedvs.greenman.zu/spring/,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameResponse,
+    Content: NetworkError,
+  }
+),
+
+test (
+  name: State Update Error Network,
+  
+  forge {
+    MessageType: GsnStateUpdate,
+    NodeState: Enabled,
+    TextContent: SpringB,
+    Http: nodedvs.greenman.zu/spring/,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameResponse,
+    Content: NetworkError,
+  }
+),
+
+
+// Start dealing with the Geotop netspace
+runner (
+
+  name: Db Reset 0x2,
+  
+  forge {
+  	MessageType: UnitTest,
+    TestAction: Reset,
+    Http: nodedvs.greenman.zu/spring/,
+  },
+),
+
+runner (
+  name: Add Initial Geosub Root,
+  
+  forge {
+    MessageType: UnitTest,
+    TestAction: AddGsnRoot,
+    TextContent: SpringLocal,Localhost,127.0.0.1,homegeo,
+    Http: nodedvs.greenman.zu/spring/,
+  },
+),
+
+
+
+test (
+  name: Register New Root Node,
+  
+  forge {
+    MessageType: GtnRegistration,
+    NodeService: Dvsp,
+    TextContent: SpringAlt,Localalt,127.0.0.1,homegeo,
+    Http: nodedvs.greenman.zu/spring/,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameResponse,
+    Content: Ok,
+  }
+),
+
+
+test (
+  name: Request Geosub Nodes for GTN,
+  
+  forge {
+    MessageType: GtnGeosubNodes,
+    TextContent: homegeo,
+    Http: nodedvs.greenman.zu/spring/,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameNetwork,
+    Content: SpringLocal,Localhost,127.0.0.1;SpringAlt,Localalt,127.0.0.1;,
+  }
+),

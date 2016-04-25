@@ -8,18 +8,26 @@ object SpringTestSuite {
   def main(args: Array[String]) = {
     var address = "127.0.0.1:55301"
     var verbose = false
-    var localOnly = false;
+    var localOnly = false
+    var unitSrc = "units.stu"
     
     
     args.foreach {
       case "verbose" => verbose = true
       case "local" => localOnly = true
-      case a:String => address = a 
+      case a:String =>{
+        if(a.indexOf(".stu") >= 0) {
+          unitSrc = a
+        } else {
+          address = a
+        }
+      }
     }
     println("Verbose: " + verbose)
     println("Address: " + address)
     println("Spring DVS Online Test Suite")
-    var testBuild = Source.fromFile("units.stu").mkString
+    println("Using: `" + unitSrc + "`")
+    var testBuild = Source.fromFile(unitSrc).mkString
     val rx = """(?:test|runner)\s*\(\s*([a-zA-Z0-9\s:;/,\.{}])*\)""".r
     var passed = 0
     var failed = 0
