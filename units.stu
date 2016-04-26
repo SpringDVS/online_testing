@@ -483,11 +483,11 @@ test (
 runner (
 
   name: HSL Db Reset 0x3,
-  port: 55300,
+  port: 80,
 
   forge {
   	MessageType: UnitTest,
-  	Http: spring.host/resource,
+  	Http: spring.greenman.zu/spring/,
     TestAction: Reset,
   },
 ),
@@ -496,13 +496,13 @@ runner (
 test (
 
   name: HSL Register SpringA,
-  port: 55300,
+  port: 80,
   
   forge {
     MessageType: GsnRegistration,
     NodeType: Org,
     NodeService: Dvsp,
-    Http: spring.host/resource,
+    Http: spring.greenman.zu/spring/,
     TextContent: SpringA,HostA,  
   },
   
@@ -516,11 +516,11 @@ test (
 test (
 
   name: HSL Check SpringA Status,
-  port: 55300,
+  port: 80,
   
   forge {
     MessageType: GsnNodeStatus,
-    Http: spring.host/resource,
+    Http: spring.greenman.zu/spring/,
     TextContent: SpringA,
   },
   
@@ -534,12 +534,12 @@ test (
 test (
 
   name: HSL Update Enable SpringA,
-  port: 55300,
+  port: 80,
   
   forge {
     MessageType: GsnStateUpdate,
     NodeState: Enabled
-    Http: spring.host/resource,
+    Http: spring.greenman.zu/spring/,
     TextContent: SpringA,
   },
   
@@ -553,11 +553,11 @@ test (
 test (
 
   name: HSL Recheck SpringA Status,
-  port: 55300,
+  port: 80,
   
   forge {
     MessageType: GsnNodeStatus,
-    Http: spring.host/resource,
+    Http: spring.greenman.zu/spring/,
     TextContent: SpringA,
   },
   
@@ -571,13 +571,13 @@ test (
 test (
 
   name: HSL Register SpringB,
-  port: 55300,
+  port: 80,
   
   forge {
     MessageType: GsnRegistration,
     NodeType: Org,
     NodeService: Dvsp,
-    Http: spring.host/resource,
+    Http: spring.greenman.zu/spring/,
     TextContent: SpringB,HostB,
   },
   
@@ -591,11 +591,11 @@ test (
 test (
 
   name: HSL Request Area 2xNode,
-  port: 55300,
+  port: 80,
   
   forge {
     MessageType: GsnArea,
-    Http: spring.host/resource,
+    Http: spring.greenman.zu/spring/,
   },
   
   expects {
@@ -607,11 +607,11 @@ test (
 
 test (
   name: HSL Locally Resolve SpringA,
-  port: 55300,
+  port: 80,
   
   forge {
     MessageType: GsnResolution,
-    Http: spring.host/resource,
+    Http: spring.greenman.zu/spring/,
     TextContent: spring://SpringA,
   },
   
@@ -624,12 +624,12 @@ test (
 
 test (
   name: HSL Unregister SpringA,
-  port: 55300,
+  port: 80,
 
   forge {
     MessageType: GsnRegistration,
     NodeRegister: False,
-    Http: spring.host/resource,
+    Http: spring.greenman.zu/spring/,
     TextContent: SpringA,HostA,
   }
 
@@ -645,10 +645,10 @@ test (
 test (
 
   name: HSL Request Area 1xNode,
-  port: 55300,
+  port: 80,
   
   forge {
-  	Http: spring.host/resource,
+  	Http: spring.greenman.zu/spring/,
     MessageType: GsnArea,
   },
   
@@ -664,14 +664,14 @@ test (
 
 test(
   name: HSL Register SpringWeb Node,
-  port: 55300,
+  port: 80,
 
   forge {
     MessageType: GsnRegistration,
     NodeRegister: True,
     NodeType: Org,
     NodeService: Http,
-    Http: spring.host/resource,
+    Http: spring.greenman.zu/spring/,
     TextContent: SpringWeb,WebHost/php/node/,
   },
   
@@ -688,11 +688,11 @@ test(
 test (
 
   name: HSL Request SpringWeb Node Info,
-  port: 55300,
+  port: 80,
   
   forge {
     MessageType: GsnNodeInfo,
-    Http: spring.host/resource,
+    Http: spring.greenman.zu/spring/,
     TextContent: SpringWeb,
   },
   
@@ -706,13 +706,13 @@ test (
 test (
 
   name: HSL Register SpringRoot,
-  port: 55300,
+  port: 80,
   
   forge {
     MessageType: GsnRegistration,
     NodeType: Root,
     NodeService: Dvsp,
-    Http: spring.host/resource,
+    Http: spring.greenman.zu/spring/,
     TextContent: SpringRoot,HostRoot,  
   },
   
@@ -728,11 +728,11 @@ test (
 test (
 
   name: HSL SpringRoot NodeInfo,
-  port: 55300,
+  port: 80,
   
   forge {
     MessageType: GsnNodeInfo,
-    Http: spring.host/resource,
+    Http: spring.greenman.zu/spring/,
     TextContent: SpringRoot,
   },
   
@@ -745,11 +745,11 @@ test (
 
 test (
   name: HSL Request Org Nodes,
-  port: 55300,
+  port: 80,
 
   forge {
     MessageType: GsnTypeRequest,
-    Http: spring.host/resource,
+    Http: spring.greenman.zu/spring/,
     NodeType: Org,
   },
 
@@ -762,11 +762,11 @@ test (
 
 test (
   name: HSL Request Root Nodes,
-  port: 55300,
+  port: 80,
 
   forge {
     MessageType: GsnTypeRequest,
-    Http: spring.host/resource,
+    Http: spring.greenman.zu/spring/,
     NodeType: Root,
   },
 
@@ -785,13 +785,13 @@ test (
 test (
 
   name: HSL Registration Error NetspaceDuplication Springname,
-  port: 55300,
+  port: 80,
   
   forge {
     MessageType: GsnRegistration,
     NodeType: Org,
     NodeService: Dvsp,
-    Http: spring.host/resource,
+    Http: spring.greenman.zu/spring/,
     TextContent: SpringB,abcd,
   },
   
@@ -805,13 +805,13 @@ test (
 test (
 
   name: HSL Registration Error NetspaceDuplication Hostname,
-  port: 55300,
+  port: 80,
   
   forge {
     MessageType: GsnRegistration,
     NodeType: Org,
     NodeService: Dvsp,
-    Http: spring.host/resource,
+    Http: spring.greenman.zu/spring/,
     TextContent: SpringZ,HostB,
   },
   
@@ -826,11 +826,11 @@ test (
 test (
 
   name: HSL NodeInfo Error Netspace,
-  port: 55300,
+  port: 80,
   
   forge {
     MessageType: GsnNodeInfo,
-    Http: spring.host/resource,
+    Http: spring.greenman.zu/spring/,
     TextContent: VoidNode,
   },
   
@@ -845,11 +845,11 @@ test (
 test (
 
   name: HSL NodeStatus Error Netspace,
-  port: 55300,
+  port: 80,
   
   forge {
     MessageType: GsnNodeStatus,
-    Http: spring.host/resource,
+    Http: spring.greenman.zu/spring/,
     TextContent: SpringZ,
   },
   
@@ -864,12 +864,12 @@ test (
 test (
 
   name: HSL NodeState Error Netspace,
-  port: 55300,
+  port: 80,
   
   forge {
     MessageType: GsnStateUpdate,
     NodeState: Enabled,
-    Http: spring.host/resource,
+    Http: spring.greenman.zu/spring/,
     TextContent: SpringZ,
   },
   
@@ -886,24 +886,24 @@ test (
 runner (
 
   name: HSL Modify SpringB Address,
-  port: 55300,
+  port: 80,
   
   forge {
     MessageType: UnitTest,
     TestAction: UpdateAddress,
-    Http: spring.host/resource,
+    Http: spring.greenman.zu/spring/,
     TextContent: SpringB,HostB,192.172.192.72,
   }
 ),
 
 test (
   name: HSL Unregister Error Network,
-  port: 55300,
+  port: 80,
   
   forge {
     MessageType: GsnRegistration,
     NodeRegister: False,
-    Http: spring.host/resource,
+    Http: spring.greenman.zu/spring/,
     TextContent: SpringB,HostB,
   },
   
@@ -916,12 +916,12 @@ test (
 
 test (
   name: HSL State Update Error Network,
-  port: 55300,
+  port: 80,
   
   forge {
     MessageType: GsnStateUpdate,
     NodeState: Enabled,
-    Http: spring.host/resource,
+    Http: spring.greenman.zu/spring/,
     TextContent: SpringB,
   },
   
@@ -937,23 +937,23 @@ test (
 runner (
 
   name: HSL Db Reset 0x2,
-  port: 55300,
+  port: 80,
   
   forge {
   	MessageType: UnitTest,
-  	Http: spring.host/resource,
+  	Http: spring.greenman.zu/spring/,
     TestAction: Reset,
   },
 ),
 
 runner (
   name: HSL Add Initial Geosub Root,
-  port: 55300,
+  port: 80,
   
   forge {
     MessageType: UnitTest,
     TestAction: AddGsnRoot,
-    Http: spring.host/resource,
+    Http: spring.greenman.zu/spring/,
     TextContent: SpringLocal,Localhost,127.0.0.1,homegeo,
   },
 ),
@@ -962,12 +962,12 @@ runner (
 
 test (
   name: HSL Register New Root Node,
-  port: 55300,
+  port: 80,
   
   forge {
     MessageType: GtnRegistration,
     NodeService: Dvsp,
-    Http: spring.host/resource,
+    Http: spring.greenman.zu/spring/,
     TextContent: SpringAlt,Localalt,127.0.0.1,homegeo,
   },
   
@@ -981,11 +981,11 @@ test (
 
 test (
   name: HSL Request Geosub Nodes for GTN,
-  port: 55300,
+  port: 80,
   
   forge {
     MessageType: GtnGeosubNodes,
-    Http: spring.host/resource,
+    Http: spring.greenman.zu/spring/,
     TextContent: homegeo,
   },
   
@@ -1022,7 +1022,7 @@ runner (
   network: remote,
   
   forge {
-    MessageTarget: ###.###.###.###:55301,
+    MessageTarget: xxx.xxx.xxx.xxx:55301,
     MessageType: UnitTest,
     TestAction: Reset,
   },
@@ -1036,7 +1036,7 @@ test (
   network: remote,
   
   forge {
-   MessageTarget: ###.###.###.###:55301,
+   MessageTarget: xxx.xxx.xxx.xxx:55301,
     MessageType: GsnRegistration,
     NodeType: Org,
     NodeService: Dvsp,
@@ -1058,7 +1058,7 @@ runner (
     MessageType: UnitTest,
     TestAction: AddGsnRoot,
     NodeService: Dvsp,
-    TextContent: SpringRemote,SpringWide,###.###.###.###,esusx,
+    TextContent: SpringRemote,SpringWide,xxx.xxx.xxx.xxx,esusx,
   },
 ),
 
@@ -1076,7 +1076,7 @@ test (
   expects {
     Result: Response,
     Frame: FrameNetwork,
-    Content: SpringRemote,SpringWide,###.###.###.###;,
+    Content: SpringRemote,SpringWide,xxx.xxx.xxx.xxx;,
   }
 ),
 
@@ -1092,7 +1092,7 @@ test (
   expects {
     Result: Response,
     Frame: FrameNodeInfo,
-    Content: 2;Dvsp;$$$.$$$.$$$.$$$;springwater,RemoteHost,
+    Content: 2;Dvsp;%%%.%%%.%%%.%%%;springwater,RemoteHost,
   }
 ),
 
