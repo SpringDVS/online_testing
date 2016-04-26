@@ -481,3 +481,147 @@ test (
     Content: SpringLocal,Localhost,127.0.0.1;SpringAlt,Localalt,127.0.0.1;,
   }
 ),
+
+
+runner (
+
+  name: Web Cleanup,
+  
+  forge {
+  	MessageType: UnitTest,
+    TestAction: Reset,
+    Http: nodedvs.greenman.zu/spring/,
+  },
+),
+
+
+
+
+
+
+
+
+// Test Request Chaining
+
+// Wipe remote database
+runner (
+
+  name: Remote Db Reset 0x3,
+  network: remote,
+  
+  forge {
+    MessageTarget: xxx.xxx.xxx.xxx:80,
+    MessageType: UnitTest,
+    TestAction: Reset,
+    Http: spring.remote/resource/,
+  },
+),
+
+
+// Register Springwater on Woodsage
+test (
+
+  name: Register springwater,
+  network: remote,
+  
+  forge {
+   MessageTarget: xxx.xxx.xxx.xxx:80,
+    MessageType: GsnRegistration,
+    NodeType: Org,
+    NodeService: Dvsp,
+    TextContent: springwater,RemoteHost,
+    Http: spring.remote/resource/,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameResponse,
+    Content: Ok
+  }
+),
+
+// Add woodsage as root of esusx to the webnode
+runner (
+  name: Adding Woodsage Root,
+  network: remote,
+  
+  forge {
+    MessageType: UnitTest,
+    TestAction: AddGsnRoot,
+    NodeService: Dvsp,
+    TextContent: woodsage,spring.remote/resource/,xxx.xxx.xxx.xxx,esusx,
+    Http: nodedvs.greenman.zu/spring/,
+  },
+),
+
+
+
+test (
+  name: Request Geosub Nodes esusx,
+  network: remote,
+  
+  forge {
+    MessageType: GtnGeosubNodes,
+    TextContent: esusx,
+    Http: nodedvs.greenman.zu/spring/,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameNetwork,
+    Content: woodsage,woodsage.spring-dvs.org,xxx.xxx.xxx.xxx;,
+  }
+),
+
+test (
+  name: Chain Request Resolve SpringWater,
+  network: remote,
+  
+  forge {
+    MessageType: GsnResolution,
+    TextContent: spring://springwater.esusx.uk,
+    Http: nodedvs.greenman.zu/spring/,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameNodeInfo,
+    Content: 2;Dvsp;%%%.%%%.%%%.%%%;springwater,RemoteHost,
+  }
+),
+
+
+
+test (
+  name: Chain Request Resolution Netspace Error,
+  network: remote,
+
+  forge {
+    MessageType: GsnResolution,
+    TextContent: spring://void.esusx.uk,
+    Http: nodedvs.greenman.zu/spring/,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameResponse,
+    Content: NetspaceError,
+  }
+),
+
+test (
+  name: No Geosub Resolution Netspace Error,
+  network: remote,
+
+  forge {
+    MessageType: GsnResolution,
+    TextContent: spring://springwater.void.uk,
+    Http: nodedvs.greenman.zu/spring/,
+  },
+  
+  expects {
+    Result: Response,
+    Frame: FrameResponse,
+    Content: NetspaceError,
+  }
+),
