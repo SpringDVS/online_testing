@@ -28,7 +28,7 @@ object SpringTestSuite {
     println("Spring DVS Online Test Suite")
     println("Using: `" + unitSrc + "`")
     var testBuild = Source.fromFile(unitSrc).mkString
-    val rx = """(?:test|runner)\s*\(\s*([a-zA-Z0-9\s:;/,\.{}])*\)""".r
+    val rx = """(?:test|runner)\s*\(\s*([a-zA-Z0-9\s:;/,\.{}-])*\)""".r
     var passed = 0
     var failed = 0
     
