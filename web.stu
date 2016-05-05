@@ -510,10 +510,10 @@ runner (
   network: remote,
   
   forge {
-    MessageTarget: xxx.xxx.xxx.xxx:80,
+    MessageTarget: ###.###.###.###:80,
     MessageType: UnitTest,
     TestAction: Reset,
-    Http: spring.remote/resource/,
+    Http: woodsage.spring-dvs.org/spring/,
   },
 ),
 
@@ -525,12 +525,12 @@ test (
   network: remote,
   
   forge {
-   MessageTarget: xxx.xxx.xxx.xxx:80,
+   MessageTarget: ###.###.###.###:80,
     MessageType: GsnRegistration,
     NodeType: Org,
     NodeService: Dvsp,
     TextContent: springwater,RemoteHost,
-    Http: spring.remote/resource/,
+    Http: woodsage.spring-dvs.org/spring/,
   },
   
   expects {
@@ -549,7 +549,7 @@ runner (
     MessageType: UnitTest,
     TestAction: AddGsnRoot,
     NodeService: Dvsp,
-    TextContent: woodsage,spring.remote/resource/,xxx.xxx.xxx.xxx,esusx,
+    TextContent: woodsage,woodsage.spring-dvs.org/spring/,###.###.###.###,esusx,
     Http: nodedvs.greenman.zu/spring/,
   },
 ),
@@ -569,7 +569,7 @@ test (
   expects {
     Result: Response,
     Frame: FrameNetwork,
-    Content: woodsage,woodsage.spring-dvs.org,xxx.xxx.xxx.xxx;,
+    Content: woodsage,woodsage.spring-dvs.org,###.###.###.###;,
   }
 ),
 
@@ -586,7 +586,7 @@ test (
   expects {
     Result: Response,
     Frame: FrameNodeInfo,
-    Content: 2;Dvsp;%%%.%%%.%%%.%%%;springwater,RemoteHost,
+    Content: 2;Dvsp;***.***.***.***;springwater,RemoteHost,
   }
 ),
 

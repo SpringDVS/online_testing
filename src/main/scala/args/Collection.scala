@@ -12,6 +12,7 @@ class Collection(map:Map[String,String]) {
   var textContent = new PacketTextContent()
   var testAction = new PacketTestAction()
   var httpService = new PacketHttpService()
+  var nodeToken = new PacketNodeToken()
   
   map.foreach {
     p => p._1 match {
@@ -63,6 +64,9 @@ class Collection(map:Map[String,String]) {
 
       case "TextContent" => {
         textContent = new PacketTextContent(p._2) 
+      }
+      case "NodeToken" => {
+        nodeToken = new PacketNodeToken(p._2) 
       }
       case _ => { throw new IllegalArgumentException("Exception: unknown Argument Selector `"+p._1+"` (with enum `" + p._2 + "`)") }
     }
